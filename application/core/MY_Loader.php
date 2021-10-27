@@ -42,7 +42,7 @@ class MY_Loader extends CI_Loader
      * @param   string  an optional object name
      * @return  void
      */
-    public function service($service = '', $params = NULL, $object_name = NULL)
+    public function service($service = '', $object_name = NULL)
     {
         if(is_array($service))
         {
@@ -58,21 +58,6 @@ class MY_Loader extends CI_Loader
             return FALSE;
         }
 
-        if(! is_null($params) && ! is_array($params)) {
-            $params = NULL;
-        }
-
-        $subdir = '';
-
-        // Is the service in a sub-folder? If so, parse out the filename and path.
-        if (($last_slash = strrpos($service, '/')) !== FALSE)
-        {
-                // The path is in front of the last slash
-                $subdir = substr($service, 0, $last_slash + 1);
-
-                // And the service name behind it
-                $service = substr($service, $last_slash + 1);
-        }
         $name = config_item('subclass_prefix')."Service.php";
         
         // Load the parent service 
@@ -100,15 +85,8 @@ class MY_Loader extends CI_Loader
 
             $service = ucfirst($service);
             $CI = &get_instance();
-            if($params !== NULL)
-            {
-                $CI->$object_name = new $service($params);
-            }
-            else
-            {
-                $CI->$object_name = new $service();
-            }
-
+            
+            $CI->$object_name = new $service();
             $this->services[] = $object_name;
         }
     }

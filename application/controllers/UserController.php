@@ -8,8 +8,8 @@ class UserController extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->service('RoleService', null, 'roleService');
-		$this->load->service('FunctionalService', null, 'serv');
+		$this->load->service('RoleService','roleService');
+		$this->load->service('FunctionalService','serv');
 	}
 
 	public function index()
