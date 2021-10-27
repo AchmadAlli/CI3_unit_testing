@@ -15,7 +15,7 @@ class MY_Loader extends CI_Loader
      * @var array
      * @access protected
      */
-    protected $service_paths       = array();
+    protected $service_paths = array();
 
     /**
      * Constructor
@@ -24,10 +24,11 @@ class MY_Loader extends CI_Loader
      */
     public function __construct()
     {
-
         parent::__construct();
-        load_class('Service','core');
-        $this->service_paths = array(APPPATH);
+        $this->service_paths = array(
+            ...glob(APPPATH.'services/*.php'),
+            ...glob(APPPATH.'domain/**/services/*.php')
+        );
     }
 
     /**
@@ -81,11 +82,8 @@ class MY_Loader extends CI_Loader
             require(APPPATH.'core/'.$name);
         }
 
-        foreach($this->service_paths as $path)
+        foreach($this->service_paths as $filepath)
         {
-
-            $filepath = $path .'services/'.$subdir.$service.'.php';
-
             if ( ! file_exists($filepath))
             {
                 continue;
@@ -112,8 +110,6 @@ class MY_Loader extends CI_Loader
             }
 
             $this->services[] = $object_name;
-
-            return;
         }
     }
 }
