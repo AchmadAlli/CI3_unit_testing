@@ -2,9 +2,15 @@
 
 class FunctionalService extends MY_Service {
 
+  public function __construct()
+  {
+    parent::__construct();
+    $test = $this->load->model('Functional', 'functional');
+  }
+
   public function getFunctional()
   {
-    return 'functional';
+    return $this->functional->getFunctional();
   }
 
 }
